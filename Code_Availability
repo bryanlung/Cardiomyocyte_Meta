@@ -12,11 +12,15 @@ metadata_Chaffin <- metadata_Chaffin[-1, ]
 rownames(metadata_Chaffin) <- metadata_Chaffin$NAME
 metadata_Chaffin$NAME <- NULL
 Chaffin <- AddMetaData(Chaffin, metadata = metadata_Chaffin)
-
+Chaffin_CMs <- subset(Chaffin, subset = cell_type__ontology_label == "cardiac muscle cell")
 
 # Feng et al.
 # Funakoshi et al.
 # Grancharova et al.
+
+Grancharova <- Read10X(data.dir = "/home/bryanl/scratch/scRNA_meta/Grancharova/scrnaseq_counts/")
+
+
 # Koenig et al.  
 # Li et al.  
 # Simonson et al.
