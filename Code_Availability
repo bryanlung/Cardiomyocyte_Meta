@@ -54,7 +54,7 @@ D32_MAT_VCM@meta.data$Conditions <- "Mature hiPSC-CMs"
 tmp <- merge(D20_VCM, D32_IM_VCM)
 Funakoshi <- merge(tmp, D32_MAT_VCM)
 Funakoshi@meta.data$Sex <- "Undefined"
-Funakoshi@meta.data$Dataset <- "Funakoshi"
+Funakoshi@meta.data$Dataset <- "Funakoshi et al."
 qsave(Funakoshi, "/home/bryanl/scratch/scRNA_meta/Funakoshi/Funakoshi_iPSC-CMs.qs")
 
 # Grancharova et al.
@@ -77,8 +77,19 @@ Grancharova@meta.data$Conditions[Grancharova@meta.data$day == "D93"] <- "Mature 
 Grancharova@meta.data$Conditions[Grancharova@meta.data$day == "D96"] <- "Mature hiPSC-CMs"
 qsave(Grancharova, "/home/bryanl/scratch/scRNA_meta/Grancharova/Grancharova.qs")
 
-# Koenig et al.  
+# Koenig et al. 
+
+load("/home/bryanl/scratch/scRNA_meta/Koenig/GSE183852_DCM_Integrated.Robj")
+Koenig <- RefMerge
+Koenig_CMs <- subset(Koenig, subset = Names == "Cardiomyocytes")
+Koenig_CMs@meta.data$Dataset <- "Koenig et al." 
+Koenig_CMs@meta.data$Conditions[Koenig_CMs@meta.data$condition == "Donor"] <- "Healthy CMs"
+Koenig_CMs@meta.data$Conditions[Koenig_CMs@meta.data$condition == "DCM"] <- "DCM CMs"
+qsave(Koenig_CMs, "/home/bryanl/scratch/scRNA_meta/Koenig/Koenig_CMs.qs")
+
 # Li et al.  
+
+
 # Simonson et al.
 # Zhang et al.
 
