@@ -17,7 +17,12 @@ metadata_Chaffin$NAME <- NULL
 Chaffin <- AddMetaData(Chaffin, metadata = metadata_Chaffin)
 Chaffin_CMs <- subset(Chaffin, subset = cell_type__ontology_label == "cardiac muscle cell")
 Chaffin_CMs@meta.data$Dataset <- "Chaffin" 
-qsave("/home/bryanl/scratch/scRNA_meta/Chaffin/Chaffin_CMs.qs") 
+Chaffin_CMs@meta.data$Sex[Chaffin_CMs@meta.data$sex == "male"] <- "Male"
+Chaffin_CMs@meta.data$Sex[Chaffin_CMs@meta.data$sex == "female"] <- "Female"
+Chaffin_CMs@meta.data$Conditions[Chaffin_CMs@meta.data$disease__ontology_label == "normal"] <- "Healthy CMs"
+Chaffin_CMs@meta.data$Conditions[Chaffin_CMs@meta.data$disease__ontology_label == "hypertrophic cardiomyopathy"] <- "HCM CMs"
+Chaffin_CMs@meta.data$Conditions[Chaffin_CMs@meta.data$disease__ontology_label == "dilated cardiomyopathy"] <- "DCM CMs"
+qsave(Chaffin_CMs, "/home/bryanl/scratch/scRNA_meta/Chaffin/Chaffin_CMs.qs") 
 
 # Feng et al.
 # Funakoshi et al.
@@ -47,4 +52,6 @@ qsave(Grancharova, "/home/bryanl/scratch/scRNA_meta/Grancharova/Grancharova.qs")
 # Zhang et al.
 
 ## Quality Control
+
+HF_meta[["percent.mt"]] <- PercentageFeatureSet(HF_meta, pattern = "^MT-")
 
