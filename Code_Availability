@@ -126,7 +126,17 @@ qsave(Simonson_CMs, "/home/bryanl/scratch/scRNA_meta/Simonson/Simonson_CMs.qs")
 
 CMs_2D <- Read10X(data.dir = "/home/bryanl/scratch/scRNA_meta/Zhang/2D_CM")
 CMs_2D <- CreateSeuratObject(counts = CMs_2D, project = "2D_CMs", min.cells = 3, min.features = 200)
-
+MCO_CM <- Read10X(data.dir = "/home/bryanl/scratch/scRNA_meta/Zhang/MCO_CM/")
+MCO_CM <- CreateSeuratObject(counts = MCO_CM, project = "MCO_CM", min.cells = 3, min.features = 200)
+MCO_MIX <- Read10X(data.dir = "/home/bryanl/scratch/scRNA_meta/Zhang/MCO_MIX")
+MCO_MIX <- CreateSeuratObject(counts = MCO_MIX, project = "MCO_MIX", min.cells = 3, min.features = 200)
+CMs_2D@meta.data$Conditions <- "Immature hiPSC-CMs"
+MCO_CM@meta.data$Conditions <- "
+MCO_MIX@meta.data$Conditions <- "
+tmp <- merge(CMs_2D, MCO_CM)
+Zhang <- merge(tmp, MCO_MIX)
+Zhang@meta.data$Dataset <- "Zhang et al."
+Zhang@meta.data$Sex <- "Undefined"
 
 ## Quality Control
 
