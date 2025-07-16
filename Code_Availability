@@ -16,7 +16,7 @@ rownames(metadata_Chaffin) <- metadata_Chaffin$NAME
 metadata_Chaffin$NAME <- NULL
 Chaffin <- AddMetaData(Chaffin, metadata = metadata_Chaffin)
 Chaffin_CMs <- subset(Chaffin, subset = cell_type__ontology_label == "cardiac muscle cell")
-Chaffin_CMs@meta.data$Dataset <- "Chaffin" 
+Chaffin_CMs@meta.data$Dataset <- "Chaffin et al." 
 Chaffin_CMs@meta.data$Sex[Chaffin_CMs@meta.data$sex == "male"] <- "Male"
 Chaffin_CMs@meta.data$Sex[Chaffin_CMs@meta.data$sex == "female"] <- "Female"
 Chaffin_CMs@meta.data$Conditions[Chaffin_CMs@meta.data$disease__ontology_label == "normal"] <- "Healthy CMs"
@@ -25,7 +25,38 @@ Chaffin_CMs@meta.data$Conditions[Chaffin_CMs@meta.data$disease__ontology_label =
 qsave(Chaffin_CMs, "/home/bryanl/scratch/scRNA_meta/Chaffin/Chaffin_CMs.qs") 
 
 # Feng et al.
+
+Feng <- Read10X(data.dir = "/home/bryanl/scratch/scRNA_meta/Feng/10X_file/", gene.column = 1)
+Feng <- CreateSeuratObject(counts = Feng, project = "Feng", min.cells = 3, min.features = 200)
+metadata_Feng <- read.csv("/home/bryanl/scratch/scRNA_meta/Feng/GSE163619_GEO_FACs-sorted_metadata.csv", header = FALSE)
+colnames(metadata_Feng) <- metadata_Feng[1, ]
+metadata_Feng <- metadata_Feng[-1, ]
+rownames(metadata_Feng) <- metadata_Chaffin$barcodes
+metadata_Chaffin$barcodes <- NULL
+Feng <- AddMetaData(Feng, metadata = metadata_Feng)
+Feng@meta.data$Conditions[Feng@meta.data$treatment == "RA+"] <- "Immature Atrial hiPSC-CM derived Organoids" 
+Feng@meta.data$Conditions[Feng@meta.data$treatment == "RA-"] <- "Immature Ventricular hiPSC-CM derived Organoids" 
+Feng@meta.data$Dataset <- "Feng et al."
+Feng@meta.data$Sex <- "Undefined"
+qsave(Feng, "/home/bryanl/scratch/scRNA_meta/Feng/Feng_Organoids.qs") 
+
 # Funakoshi et al.
+
+D20_VCM <- Read10X(data.dir= "/home/bryanl/scratch/scRNA_meta/Funakoshi/D20_VCM/")
+D20_VCM <- CreateSeuratObject(counts = D20_VCM, project = "D20_VCM", min.cells = 3, min.features = 200)
+D20_VCM@meta.data$Conditions <- "Immature hiPSC-CMs"
+D32_IM_VCM <- Read10X(data.dir= "/home/bryanl/scratch/scRNA_meta/Funakoshi/D32_IM_VCM/")
+D32_IM_VCM <- CreateSeuratObject(counts = D32_IM_VCM, project = "D32_IM_VCM", min.cells = 3, min.features = 200)
+D32_IM_VCM@meta.data$Conditions <- "Immature hiPSC-CMs"
+D32_MAT_VCM <- Read10X(data.dir= "/home/bryanl/scratch/scRNA_meta/Funakoshi/D32_MAT_VCM/")
+D32_MAT_VCM <- CreateSeuratObject(counts = D32_MAT_VCM, project = "D32_MAT_VCM", min.cells = 3, min.features = 200)
+D32_MAT_VCM@meta.data$Conditions <- "Mature hiPSC-CMs"
+tmp <- merge(D20_VCM, D32_IM_VCM)
+Funakoshi <- merge(tmp, D32_MAT_VCM)
+Funakoshi@meta.data$Sex <- "Undefined"
+Funakoshi@meta.data$Dataset <- "Funakoshi"
+qsave(Funakoshi, "/home/bryanl/scratch/scRNA_meta/Funakoshi/Funakoshi_iPSC-CMs.qs")
+
 # Grancharova et al.
 
 load("/home/bryanl/scratch/scRNA_meta/Grancharova/protocol1_D0_D12_D24_D90/seurat_object/D0_D12_D24_D90_paper_figures.RData")
@@ -35,7 +66,7 @@ load("/home/bryanl/scratch/scRNA_meta/Grancharova/reproducibility_D12_D14_D24_D2
 cardio <- UpdateSeuratObject(cardio)
 Grancharova_2 <- cardio
 Grancharova <- merge(Grancharova_1, Grancharova_2)
-Grancharova@meta.data$Dataset <- "Grancharova"
+Grancharova@meta.data$Dataset <- "Grancharova et al."
 Grancharova@meta.data$Sex <- "Undefined"
 Grancharova@meta.data$Conditions[Grancharova@meta.data$day == "D0"] <- "Immature hiPSC-CMs"
 Grancharova@meta.data$Conditions[Grancharova@meta.data$day == "D12"] <- "Immature hiPSC-CMs"
