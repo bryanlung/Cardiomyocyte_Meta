@@ -1,5 +1,8 @@
+## Please download all data from link provided in Table S1
+
 library(Seurat)
 library(qs)
+
 
 ## Dataset Curation and Loading in R
 
@@ -13,13 +16,30 @@ rownames(metadata_Chaffin) <- metadata_Chaffin$NAME
 metadata_Chaffin$NAME <- NULL
 Chaffin <- AddMetaData(Chaffin, metadata = metadata_Chaffin)
 Chaffin_CMs <- subset(Chaffin, subset = cell_type__ontology_label == "cardiac muscle cell")
+Chaffin_CMs@meta.data$Dataset <- "Chaffin" 
+qsave("/home/bryanl/scratch/scRNA_meta/Chaffin/Chaffin_CMs.qs") 
 
 # Feng et al.
 # Funakoshi et al.
 # Grancharova et al.
 
-Grancharova <- Read10X(data.dir = "/home/bryanl/scratch/scRNA_meta/Grancharova/scrnaseq_counts/")
-
+load("/home/bryanl/scratch/scRNA_meta/Grancharova/protocol1_D0_D12_D24_D90/seurat_object/D0_D12_D24_D90_paper_figures.RData")
+cardio <- UpdateSeuratObject(cardio)
+Grancharova_1 <- cardio
+load("/home/bryanl/scratch/scRNA_meta/Grancharova/reproducibility_D12_D14_D24_D26/seurat_object/reproducibility_D12_D14_D24_D26_paper_figures.RData")
+cardio <- UpdateSeuratObject(cardio)
+Grancharova_2 <- cardio
+Grancharova <- merge(Grancharova_1, Grancharova_2)
+Grancharova@meta.data$Dataset <- "Grancharova"
+Grancharova@meta.data$Sex <- "Undefined"
+Grancharova@meta.data$Conditions[Grancharova@meta.data$day == "D0"] <- "Immature hiPSC-CMs"
+Grancharova@meta.data$Conditions[Grancharova@meta.data$day == "D12"] <- "Immature hiPSC-CMs"
+Grancharova@meta.data$Conditions[Grancharova@meta.data$day == "D14"] <- "Immature hiPSC-CMs"
+Grancharova@meta.data$Conditions[Grancharova@meta.data$day == "D24"] <- "Immature hiPSC-CMs"
+Grancharova@meta.data$Conditions[Grancharova@meta.data$day == "D26"] <- "Immature hiPSC-CMs"
+Grancharova@meta.data$Conditions[Grancharova@meta.data$day == "D93"] <- "Mature hiPSC-CMs"
+Grancharova@meta.data$Conditions[Grancharova@meta.data$day == "D96"] <- "Mature hiPSC-CMs"
+qsave(Grancharova, "/home/bryanl/scratch/scRNA_meta/Grancharova/Grancharova.qs")
 
 # Koenig et al.  
 # Li et al.  
