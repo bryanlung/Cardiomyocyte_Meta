@@ -89,9 +89,44 @@ qsave(Koenig_CMs, "/home/bryanl/scratch/scRNA_meta/Koenig/Koenig_CMs.qs")
 
 # Li et al.  
 
+Homo_ips_0 <- Read10X(data.dir= "/home/bryanl/scratch/scRNA_meta/Li/Homo_ips_0")
+Homo_ips_0 <- CreateSeuratObject(counts = Homo_ips_0, project = "Homo_ips_0", min.cells = 3, min.features = 200)
+Homo_ips_1 <- Read10X(data.dir= "/home/bryanl/scratch/scRNA_meta/Li/Homo_ips_1")
+Homo_ips_1 <- CreateSeuratObject(counts = Homo_ips_1, project = "Homo_ips_1", min.cells = 3, min.features = 200)
+Homo_ips_2 <- Read10X(data.dir= "/home/bryanl/scratch/scRNA_meta/Li/Homo_ips_2")
+Homo_ips_2 <- CreateSeuratObject(counts = Homo_ips_2, project = "Homo_ips_2", min.cells = 3, min.features = 200)
+Homo_ips_3 <- Read10X(data.dir= "/home/bryanl/scratch/scRNA_meta/Li/Homo_ips_3")
+Homo_ips_3 <- CreateSeuratObject(counts = Homo_ips_3, project = "Homo_ips_3", min.cells = 3, min.features = 200)
+tmp <- merge(Homo_ips_0, Homo_ips_1)
+tmp2 <- merge(Homo_ips_2, Homo_ips_3)
+Li <- merge(tmp, tmp2)
+Li@meta.data$Dataset <- "Li et al."
+Li@meta.data$Sex <- "Undefined"
+Li@meta.data$Conditions <- "Immature hiPSC-CMs"
+qsave(Li, "/home/bryanl/scratch/scRNA_meta/Li/Li_iPSC-CMs.qs")
 
 # Simonson et al.
+
+Simonson <- Read10X(data.dir= "/home/bryanl/scratch/scRNA_meta/Simonson/SCP1849/expression/628cf91a771a5b02c35d0ba3")
+Simonson <- CreateSeuratObject(counts = Simonson, project = "Simonson", min.cells = 3, min.features = 200)
+metadata_Simonson <- read.delim("/home/bryanl/scratch/scRNA_meta/Simonson/SCP1849/metadata/ICM_MetaData_V1.txt")
+metadata_Simonson <- metadata_Simonson[-1, ]
+rownames(metadata_Simonson) <- metadata_Simonson$NAME
+metadata_Simonson$NAME <- NULL
+Simonson <- AddMetaData(Simonson, metadata = metadata_Simonson)
+Simonson_CMs <- subset(Simonson, subset = cell_type__ontology_label == "cardiac muscle cell")
+Simonson_CMs@meta.data$Dataset <- "Simonson et al."
+Simonson_CMs@meta.data$Sex[Simonson_CMs@meta.data$sex == "male"] <- "Male"
+Simonson_CMs@meta.data$Sex[Simonson_CMs@meta.data$sex == "female"] <- "Female"
+Simonson_CMs@meta.data$Conditions[Simonson_CMs@meta.data$disease__ontology_label == "normal"] <- "Healthy CMs"
+Simonson_CMs@meta.data$Conditions[Simonson_CMs@meta.data$disease__ontology_label == "cardiomyopathy"] <- "ICM CMs"
+qsave(Simonson_CMs, "/home/bryanl/scratch/scRNA_meta/Simonson/Simonson_CMs.qs")
+
 # Zhang et al.
+
+CMs_2D <- Read10X(data.dir = "/home/bryanl/scratch/scRNA_meta/Zhang/2D_CM")
+CMs_2D <- CreateSeuratObject(counts = CMs_2D, project = "2D_CMs", min.cells = 3, min.features = 200)
+
 
 ## Quality Control
 
