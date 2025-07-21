@@ -1,4 +1,5 @@
 ## Please download all data from link provided in Table S1
+set.seed(124)
 
 library(Seurat)
 library(qs)
@@ -34,8 +35,9 @@ metadata_Feng <- metadata_Feng[-1, ]
 rownames(metadata_Feng) <- metadata_Chaffin$barcodes
 metadata_Chaffin$barcodes <- NULL
 Feng <- AddMetaData(Feng, metadata = metadata_Feng)
-Feng@meta.data$Conditions[Feng@meta.data$treatment == "RA+"] <- "Immature Atrial hiPSC-CM derived Organoids" 
-Feng@meta.data$Conditions[Feng@meta.data$treatment == "RA-"] <- "Immature Ventricular hiPSC-CM derived Organoids" 
+Feng@meta.data$Fine_Conditions[Feng@meta.data$treatment == "RA+"] <- "Immature Atrial hiPSC-CM derived Organoids" 
+Feng@meta.data$Fine_Conditions[Feng@meta.data$treatment == "RA-"] <- "Immature Ventricular hiPSC-CM derived Organoids" 
+Feng@meta.data$Conditions <- "Immature hiPSC-CM derived Organoids"
 Feng@meta.data$Dataset <- "Feng et al."
 Feng@meta.data$Sex <- "Undefined"
 qsave(Feng, "/home/bryanl/scratch/scRNA_meta/Feng/Feng_Organoids.qs") 
@@ -131,14 +133,49 @@ MCO_CM <- CreateSeuratObject(counts = MCO_CM, project = "MCO_CM", min.cells = 3,
 MCO_MIX <- Read10X(data.dir = "/home/bryanl/scratch/scRNA_meta/Zhang/MCO_MIX")
 MCO_MIX <- CreateSeuratObject(counts = MCO_MIX, project = "MCO_MIX", min.cells = 3, min.features = 200)
 CMs_2D@meta.data$Conditions <- "Immature hiPSC-CMs"
-MCO_CM@meta.data$Conditions <- "
-MCO_MIX@meta.data$Conditions <- "
+MCO_CM@meta.data$Conditions <- "Immature hiPSC-CM derived Organoids"
+MCO_MIX@meta.data$Conditions <- "Mature hiPSC-CM derived Organoids"
 tmp <- merge(CMs_2D, MCO_CM)
 Zhang <- merge(tmp, MCO_MIX)
 Zhang@meta.data$Dataset <- "Zhang et al."
 Zhang@meta.data$Sex <- "Undefined"
 
+# Generating QC Figures 
+
+Chaffin@meta.data$Type <- "Nuclei" 
+Feng@meta.data$Type <- "Cell"
+Funakoshi@meta.data$Type <- "Cell"
+Grancharova@meta.data$Type <- "Cell"
+Koenig@meta.data$Type[Koenig@meta.data$tech == "SN"] <- "Nuclei"
+Koenig@meta.data$Type[Koenig@meta.data$tech == "SC"] <- "Cell"
+Li@meta.data$Type <- "Cell"
+Simonson@meta.data$Type <- "Nuclei"
+Zhang@meta.data$Type <- "Cell" 
+
+tmp <- merge(Chaffin, Feng)
+tmp2 <- merge(Funakoshi, Grancharova)
+tmp3 <- merge(Koenig, Li)
+tmp4 <- merge(Simonson, Zhang)
+tmp5 <- merge(tmp, tmp2)
+tmp6 <- merge(tmp3, tmp4)
+QC_figs <- merge(tmp5, tmp6)
+
+table(QC_figs@meta.data$Dataset, QC_figs@meta.data$Type)
+table(QC_figs@meta.data$Dataset, QC_figs@meta.data$Conditions)
+table(QC_figs@meta.data$Dataset, QC_figs@meta.data$Sex)
+
+qsave(QC_figs, "/home/bryanl/scratch/scRNA_meta/QC_figs.qs")
+
 ## Quality Control
+
+Chaffin <- 
+Feng <- 
+Funakoshi <- 
+Grancharova <- 
+Koenig <- 
+Li <- 
+Simonson <- 
+Zhang <- 
 
 HF_meta[["percent.mt"]] <- PercentageFeatureSet(HF_meta, pattern = "^MT-")
 
