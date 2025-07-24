@@ -227,6 +227,8 @@ VlnPlot(Grancharova_5, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"),
 Grancharova_5 <- subset(Grancharova_5, subset = nFeature_RNA > 200 & nFeature_RNA < 5000 & percent.mt < 20)
 
 Grancharova_6 <- subset(Grancharova, idents = c("6"))
+VlnPlot(Grancharova_6, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+
 
 Grancharova_7 <- subset(Grancharova, idents = c("7"))
 
