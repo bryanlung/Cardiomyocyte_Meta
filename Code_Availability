@@ -218,6 +218,8 @@ Grancharova_3 <- subset(Grancharova, idents = c("3"))
 VlnPlot(Grancharova_3, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 Grancharova_3 <- subset(Grancharova_3, subset = nFeature_RNA > 200 & nFeature_RNA < 5000)
 
+
+##########
 Grancharova_4 <- subset(Grancharova, idents = c("4"))
 
 Grancharova_5 <- subset(Grancharova, idents = c("5"))
@@ -241,14 +243,16 @@ Grancharova_13 <- subset(Grancharova, idents = c("13"))
 Grancharova_14 <- subset(Grancharova, idents = c("14"))
 
 Grancharova_15 <- subset(Grancharova, idents = c("15"))
-
+##########
 
 VlnPlot(Koenig, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 Koenig <- subset(Koenig, subset = nFeature_RNA > 200 & nFeature_RNA < 3700 & percent.mt < 5)
 
 Homo_ips_0 <- subset(Li, idents = c("Homo_ips_0"))
 VlnPlot(Homo_ips_0, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Homo_ips_0 <- subset(Homo_ips_0, subset = nFeature_RNA > 200 & nFeature_RNA < 6000 & percent.mt < 40)
 
+########
 Homo_ips_1 <- subset(Li, idents = c("Homo_ips_1"))
 VlnPlot(Homo_ips_1, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 
@@ -258,17 +262,21 @@ VlnPlot(Homo_ips_2, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), nc
 Homo_ips_3 <- subset(Li, idents = c("Homo_ips_3"))
 VlnPlot(Homo_ips_3, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 
+########
 VlnPlot(Simonson, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 Simonson <- subset(Simonson, subset = nFeature_RNA > 200 & nFeature_RNA < 5000 & percent.mt < 5)
 
 CMs_2D <- subset(Zhang, idents = c("2D_CMs"))
 VlnPlot(CMs_2D, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+CMs_2D <- subset(CMs_2D, subset = nFeature_RNA > 200 & nFeature_RNA < 6250 & percent.mt < 15)
 
 MCO_CM <- subset(Zhang, idents = c("MCO_CM"))
 VlnPlot(MCO_CM, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+MCO_CM <- subset(MCO_CM, subset = nFeature_RNA > 200 & nFeature_RNA < 6000 & percent.mt < 25)
 
 MCO_MIX <- subset(Zhang, idents = c("MCO_MIX"))
 VlnPlot(MCO_MIX, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+MCO_MIX <- subset(MCO_MIX, subset = nFeature_RNA > 200 & nFeature_RNA < 6000 & percent.mt < 20)
 
 ## Normalization
 
