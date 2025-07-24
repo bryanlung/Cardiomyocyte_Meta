@@ -1,4 +1,5 @@
 ## Please download all data from link provided in Table S1
+
 set.seed(124)
 
 library(Seurat)
@@ -32,8 +33,8 @@ Feng <- CreateSeuratObject(counts = Feng, project = "Feng", min.cells = 3, min.f
 metadata_Feng <- read.csv("/home/bryanl/scratch/scRNA_meta/Feng/GSE163619_GEO_FACs-sorted_metadata.csv", header = FALSE)
 colnames(metadata_Feng) <- metadata_Feng[1, ]
 metadata_Feng <- metadata_Feng[-1, ]
-rownames(metadata_Feng) <- metadata_Chaffin$barcodes
-metadata_Chaffin$barcodes <- NULL
+rownames(metadata_Feng) <- metadata_Feng$barcodes
+metadata_Feng$barcodes <- NULL
 Feng <- AddMetaData(Feng, metadata = metadata_Feng)
 Feng@meta.data$Fine_Conditions[Feng@meta.data$treatment == "RA+"] <- "Immature Atrial hiPSC-CM derived Organoids" 
 Feng@meta.data$Fine_Conditions[Feng@meta.data$treatment == "RA-"] <- "Immature Ventricular hiPSC-CM derived Organoids" 
@@ -87,6 +88,8 @@ Koenig_CMs <- subset(Koenig, subset = Names == "Cardiomyocytes")
 Koenig_CMs@meta.data$Dataset <- "Koenig et al." 
 Koenig_CMs@meta.data$Conditions[Koenig_CMs@meta.data$condition == "Donor"] <- "Healthy CMs"
 Koenig_CMs@meta.data$Conditions[Koenig_CMs@meta.data$condition == "DCM"] <- "DCM CMs"
+DefaultAssay(Koenig) <- "RNA"  
+Koenig[["SCT"]] <- NULL
 qsave(Koenig_CMs, "/home/bryanl/scratch/scRNA_meta/Koenig/Koenig_CMs.qs")
 
 # Li et al.  
@@ -139,6 +142,7 @@ tmp <- merge(CMs_2D, MCO_CM)
 Zhang <- merge(tmp, MCO_MIX)
 Zhang@meta.data$Dataset <- "Zhang et al."
 Zhang@meta.data$Sex <- "Undefined"
+qsave(Zhang, "/home/bryanl/scratch/scRNA_meta/Zhang/Zhang.qs")
 
 # Generating QC Figures 
 
@@ -168,14 +172,113 @@ qsave(QC_figs, "/home/bryanl/scratch/scRNA_meta/QC_figs.qs")
 
 ## Quality Control
 
-Chaffin <- 
-Feng <- 
-Funakoshi <- 
-Grancharova <- 
-Koenig <- 
-Li <- 
-Simonson <- 
-Zhang <- 
+Chaffin[["percent.mt"]] <- PercentageFeatureSet(Chaffin, pattern = "^MT-")
+Feng[["percent.mt"]] <- PercentageFeatureSet(Feng, pattern = "^MT-")
+D20_VCM[["percent.mt"]] <- PercentageFeatureSet(D20_VCM, pattern = "^MT-")
+D32_IM_VCM[["percent.mt"]] <- PercentageFeatureSet(D32_IM_VCM, pattern = "^MT-")
+D32_MAT_VCM[["percent.mt"]] <- PercentageFeatureSet(D32_MAT_VCM, pattern = "^MT-") 
+Grancharova[["percent.mt"]] <- PercentageFeatureSet(Grancharova, pattern = "^MT-")
+Koenig[["percent.mt"]] <- PercentageFeatureSet(Koenig, pattern = "^MT-")
+Li[["percent.mt"]] <- PercentageFeatureSet(Li, pattern = "^MT-")
+Simonson[["percent.mt"]] <- PercentageFeatureSet(Simonson, pattern = "^MT-")
+Zhang[["percent.mt"]] <- PercentageFeatureSet(Zhang, pattern = "^MT-")
 
-HF_meta[["percent.mt"]] <- PercentageFeatureSet(HF_meta, pattern = "^MT-")
+# QC Metrics Filtering
+
+VlnPlot(Chaffin, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Chaffin <- subset(Chaffin, subset = nFeature_RNA > 200 & nFeature_RNA < 8000)
+
+VlnPlot(Feng, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Feng <- subset(Feng, subset = nFeature_RNA > 200 & nFeature_RNA < 6000 & percent.mt < 20)
+
+VlnPlot(D20_VCM, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+D20_VCM <- subset(D20_VCM, subset = nFeature_RNA > 200 & nFeature_RNA < 5000 & percent.mt < 20)
+
+VlnPlot(D32_IM_VCM, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+D32_IM_VCM <- subset(D32_IM_VCM, subset = nFeature_RNA > 200 & nFeature_RNA < 4250 & percent.mt < 25)
+
+VlnPlot(D32_MAT_VCM, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+D32_MAT_VCM <- subset(D32_IM_VCM, subset = nFeature_RNA > 200 & nFeature_RNA < 4000 & percent.mt < 75)
+
+tmp <- merge(D20_VCM, D32_IM_VCM)
+Funakoshi <- merge(tmp, D32_MAT_VCM)
+Funakoshi@meta.data$Sex <- "Undefined"
+Funakoshi@meta.data$Dataset <- "Funakoshi et al."
+qsave(Funakoshi, "/home/bryanl/scratch/scRNA_meta/Funakoshi/Funakoshi_iPSC-CMs.qs")
+
+Grancharova_1 <- subset(Grancharova, idents = c("1"))
+VlnPlot(Grancharova_1, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Grancharova_1 <- subset(Grancharova_1, subset = nFeature_RNA > 200 & percent.mt < 20)
+
+Grancharova_2 <- subset(Grancharova, idents = c("2"))
+VlnPlot(Grancharova_2, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Grancharova_2 <- subset(Grancharova_2, subset = nFeature_RNA > 200 & nFeature_RNA < 5000)
+
+Grancharova_3 <- subset(Grancharova, idents = c("3"))
+VlnPlot(Grancharova_3, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Grancharova_3 <- subset(Grancharova_3, subset = nFeature_RNA > 200 & nFeature_RNA < 5000)
+
+Grancharova_4 <- subset(Grancharova, idents = c("4"))
+
+Grancharova_5 <- subset(Grancharova, idents = c("5"))
+
+Grancharova_6 <- subset(Grancharova, idents = c("6"))
+
+Grancharova_7 <- subset(Grancharova, idents = c("7"))
+
+Grancharova_8 <- subset(Grancharova, idents = c("8"))
+
+Grancharova_9 <- subset(Grancharova, idents = c("9"))
+
+Grancharova_10 <- subset(Grancharova, idents = c("10"))
+
+Grancharova_11 <- subset(Grancharova, idents = c("11"))
+
+Grancharova_12 <- subset(Grancharova, idents = c("12"))
+
+Grancharova_13 <- subset(Grancharova, idents = c("13"))
+
+Grancharova_14 <- subset(Grancharova, idents = c("14"))
+
+Grancharova_15 <- subset(Grancharova, idents = c("15"))
+
+
+VlnPlot(Koenig, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Koenig <- subset(Koenig, subset = nFeature_RNA > 200 & nFeature_RNA < 3700 & percent.mt < 5)
+
+Homo_ips_0 <- subset(Li, idents = c("Homo_ips_0"))
+VlnPlot(Homo_ips_0, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+
+Homo_ips_1 <- subset(Li, idents = c("Homo_ips_1"))
+VlnPlot(Homo_ips_1, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+
+Homo_ips_2 <- subset(Li, idents = c("Homo_ips_2"))
+VlnPlot(Homo_ips_2, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+
+Homo_ips_3 <- subset(Li, idents = c("Homo_ips_3"))
+VlnPlot(Homo_ips_3, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+
+VlnPlot(Simonson, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Simonson <- subset(Simonson, subset = nFeature_RNA > 200 & nFeature_RNA < 5000 & percent.mt < 5)
+
+CMs_2D <- subset(Zhang, idents = c("2D_CMs"))
+VlnPlot(CMs_2D, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+
+MCO_CM <- subset(Zhang, idents = c("MCO_CM"))
+VlnPlot(MCO_CM, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+
+MCO_MIX <- subset(Zhang, idents = c("MCO_MIX"))
+VlnPlot(MCO_MIX, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+
+## Normalization
+
+## Doublet Finder
+
+## Merging, Downsampling and Integration
+
+## Cardiomyocyte Identification and Annotation
+
+## Pseudobulk Generation
+
+
 
