@@ -24,7 +24,8 @@ Chaffin_CMs@meta.data$Sex[Chaffin_CMs@meta.data$sex == "female"] <- "Female"
 Chaffin_CMs@meta.data$Conditions[Chaffin_CMs@meta.data$disease__ontology_label == "normal"] <- "Healthy CMs"
 Chaffin_CMs@meta.data$Conditions[Chaffin_CMs@meta.data$disease__ontology_label == "hypertrophic cardiomyopathy"] <- "HCM CMs"
 Chaffin_CMs@meta.data$Conditions[Chaffin_CMs@meta.data$disease__ontology_label == "dilated cardiomyopathy"] <- "DCM CMs"
-qsave(Chaffin_CMs, "/home/bryanl/scratch/scRNA_meta/Chaffin/Chaffin_CMs.qs") 
+Chaffin <- Chaffin_CMs
+qsave(Chaffin, "/home/bryanl/scratch/scRNA_meta/Chaffin/Chaffin_CMs.qs") 
 
 # Feng et al.
 
@@ -90,7 +91,8 @@ Koenig_CMs@meta.data$Conditions[Koenig_CMs@meta.data$condition == "Donor"] <- "H
 Koenig_CMs@meta.data$Conditions[Koenig_CMs@meta.data$condition == "DCM"] <- "DCM CMs"
 DefaultAssay(Koenig) <- "RNA"  
 Koenig[["SCT"]] <- NULL
-qsave(Koenig_CMs, "/home/bryanl/scratch/scRNA_meta/Koenig/Koenig_CMs.qs")
+Koenig <- Koenig_CMs 
+qsave(Koenig, "/home/bryanl/scratch/scRNA_meta/Koenig/Koenig_CMs.qs")
 
 # Li et al.  
 
@@ -228,45 +230,63 @@ Grancharova_5 <- subset(Grancharova_5, subset = nFeature_RNA > 200 & nFeature_RN
 
 Grancharova_6 <- subset(Grancharova, idents = c("6"))
 VlnPlot(Grancharova_6, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
-
+Grancharova_6 <- subset(Grancharova_6, subset = nFeature_RNA > 200 & nFeature_RNA < 5500)
 
 Grancharova_7 <- subset(Grancharova, idents = c("7"))
+VlnPlot(Grancharova_7, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Grancharova_7 <- subset(Grancharova_7, subset = nFeature_RNA > 200 & nFeature_RNA < 5500)
 
 Grancharova_8 <- subset(Grancharova, idents = c("8"))
+VlnPlot(Grancharova_8, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Grancharova_8 <- subset(Grancharova_8, subset = nFeature_RNA > 200 & nFeature_RNA < 5000 & percent.mt < 20)
 
 Grancharova_9 <- subset(Grancharova, idents = c("9"))
+VlnPlot(Grancharova_9, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Grancharova_9 <- subset(Grancharova_9, subset = nFeature_RNA > 200 & nFeature_RNA < 6000 & percent.mt < 10)
 
 Grancharova_10 <- subset(Grancharova, idents = c("10"))
+VlnPlot(Grancharova_10, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Grancharova_10 <- subset(Grancharova_10, subset = nFeature_RNA > 200 & nFeature_RNA < 5000 & percent.mt < 15)
 
 Grancharova_11 <- subset(Grancharova, idents = c("11"))
+VlnPlot(Grancharova_11, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Grancharova_11 <- subset(Grancharova_11, subset = nFeature_RNA > 200 & nFeature_RNA < 5000 & percent.mt < 15)
 
 Grancharova_12 <- subset(Grancharova, idents = c("12"))
+VlnPlot(Grancharova_12, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Grancharova_12 <- subset(Grancharova_12, subset = nFeature_RNA > 200 & percent.mt < 13)
 
 Grancharova_13 <- subset(Grancharova, idents = c("13"))
+VlnPlot(Grancharova_13, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Grancharova_13 <- subset(Grancharova_13, subset = nFeature_RNA > 200 & nFeature_RNA < 5750 & percent.mt < 15)
 
 Grancharova_14 <- subset(Grancharova, idents = c("14"))
+VlnPlot(Grancharova_14, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Grancharova_14 <- subset(Grancharova_14, subset = nFeature_RNA > 200 & nFeature_RNA < 5750 & percent.mt < 20)
 
 Grancharova_15 <- subset(Grancharova, idents = c("15"))
-##########
+VlnPlot(Grancharova_15, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Grancharova_15 <- subset(Grancharova_15, subset = nFeature_RNA > 200 & percent.mt < 15)
 
 VlnPlot(Koenig, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 Koenig <- subset(Koenig, subset = nFeature_RNA > 200 & nFeature_RNA < 3700 & percent.mt < 5)
 
 Homo_ips_0 <- subset(Li, idents = c("Homo_ips_0"))
 VlnPlot(Homo_ips_0, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
-Homo_ips_0 <- subset(Homo_ips_0, subset = nFeature_RNA > 200 & nFeature_RNA < 6000 & percent.mt < 40)
+Homo_ips_0 <- subset(Homo_ips_0, subset = nFeature_RNA > 200 & nFeature_RNA < 6000 & percent.mt < 10)
 
-########
 Homo_ips_1 <- subset(Li, idents = c("Homo_ips_1"))
 VlnPlot(Homo_ips_1, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Homo_ips_1 <- subset(Homo_ips_1, subset = nFeature_RNA > 200 & nFeature_RNA < 7500 & percent.mt < 20)
 
 Homo_ips_2 <- subset(Li, idents = c("Homo_ips_2"))
 VlnPlot(Homo_ips_2, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Homo_ips_2 <- subset(Homo_ips_2, subset = nFeature_RNA > 200 & nFeature_RNA < 7500 & percent.mt < 15)
 
 Homo_ips_3 <- subset(Li, idents = c("Homo_ips_3"))
 VlnPlot(Homo_ips_3, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Homo_ips_3 <- subset(Homo_ips_3, subset = nFeature_RNA > 200 & nFeature_RNA < 7500 & percent.mt < 20)
 
-########
 VlnPlot(Simonson, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 Simonson <- subset(Simonson, subset = nFeature_RNA > 200 & nFeature_RNA < 5000 & percent.mt < 5)
 
