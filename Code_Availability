@@ -189,16 +189,16 @@ VlnPlot(Chaffin, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol 
 Chaffin <- subset(Chaffin, subset = nFeature_RNA > 200 & nFeature_RNA < 8000)
 
 VlnPlot(Feng, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
-Feng <- subset(Feng, subset = nFeature_RNA > 200 & nFeature_RNA < 6000 & percent.mt < 20)
+Feng <- subset(Feng, subset = nFeature_RNA > 200 & nFeature_RNA < 6000 & percent.mt < 25)
 
 VlnPlot(D20_VCM, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
-D20_VCM <- subset(D20_VCM, subset = nFeature_RNA > 200 & nFeature_RNA < 5000 & percent.mt < 20)
+D20_VCM <- subset(D20_VCM, subset = nFeature_RNA > 200 & nFeature_RNA < 5750 & percent.mt < 20)
 
 VlnPlot(D32_IM_VCM, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
-D32_IM_VCM <- subset(D32_IM_VCM, subset = nFeature_RNA > 200 & nFeature_RNA < 4250 & percent.mt < 25)
+D32_IM_VCM <- subset(D32_IM_VCM, subset = nFeature_RNA > 200 & nFeature_RNA < 5000 & percent.mt < 30)
 
 VlnPlot(D32_MAT_VCM, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
-D32_MAT_VCM <- subset(D32_IM_VCM, subset = nFeature_RNA > 200 & nFeature_RNA < 4000 & percent.mt < 75)
+D32_MAT_VCM <- subset(D32_MAT_VCM, subset = nFeature_RNA > 200 & nFeature_RNA < 4000 & percent.mt < 75)
 
 tmp <- merge(D20_VCM, D32_IM_VCM)
 Funakoshi <- merge(tmp, D32_MAT_VCM)
@@ -218,11 +218,13 @@ Grancharova_3 <- subset(Grancharova, idents = c("3"))
 VlnPlot(Grancharova_3, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 Grancharova_3 <- subset(Grancharova_3, subset = nFeature_RNA > 200 & nFeature_RNA < 5000)
 
-
-##########
 Grancharova_4 <- subset(Grancharova, idents = c("4"))
+VlnPlot(Grancharova_4, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Grancharova_4 <- subset(Grancharova_4, subset = nFeature_RNA > 200 & nFeature_RNA < 5000)
 
 Grancharova_5 <- subset(Grancharova, idents = c("5"))
+VlnPlot(Grancharova_5, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+Grancharova_5 <- subset(Grancharova_5, subset = nFeature_RNA > 200 & nFeature_RNA < 5000 & percent.mt < 20)
 
 Grancharova_6 <- subset(Grancharova, idents = c("6"))
 
