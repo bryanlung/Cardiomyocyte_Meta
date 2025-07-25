@@ -202,12 +202,6 @@ D32_IM_VCM <- subset(D32_IM_VCM, subset = nFeature_RNA > 200 & nFeature_RNA < 50
 VlnPlot(D32_MAT_VCM, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 D32_MAT_VCM <- subset(D32_MAT_VCM, subset = nFeature_RNA > 200 & nFeature_RNA < 4000 & percent.mt < 75)
 
-tmp <- merge(D20_VCM, D32_IM_VCM)
-Funakoshi <- merge(tmp, D32_MAT_VCM)
-Funakoshi@meta.data$Sex <- "Undefined"
-Funakoshi@meta.data$Dataset <- "Funakoshi et al."
-qsave(Funakoshi, "/home/bryanl/scratch/scRNA_meta/Funakoshi/Funakoshi_iPSC-CMs.qs")
-
 Grancharova_1 <- subset(Grancharova, idents = c("1"))
 VlnPlot(Grancharova_1, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 Grancharova_1 <- subset(Grancharova_1, subset = nFeature_RNA > 200 & percent.mt < 20)
@@ -301,6 +295,54 @@ MCO_CM <- subset(MCO_CM, subset = nFeature_RNA > 200 & nFeature_RNA < 6000 & per
 MCO_MIX <- subset(Zhang, idents = c("MCO_MIX"))
 VlnPlot(MCO_MIX, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 MCO_MIX <- subset(MCO_MIX, subset = nFeature_RNA > 200 & nFeature_RNA < 6000 & percent.mt < 20)
+
+# Generating QC Figures After QC Filtering 
+
+tmp <- merge(D20_VCM, D32_IM_VCM)
+Funakoshi <- merge(tmp, D32_MAT_VCM)
+Funakoshi@meta.data$Sex <- "Undefined"
+Funakoshi@meta.data$Dataset <- "Funakoshi et al."
+qsave(Funakoshi, "/home/bryanl/scratch/scRNA_meta/Funakoshi/Funakoshi_iPSC-CMs.qs")
+
+tmp <- merge(Grancharova_1, Grancharova_2)
+tmp_2 <- merge(Grancharova_3, Grancharova_4)
+tmp_3 <- merge(Grancharova_5, Grancharova_6)
+tmp_4 <- merge(Grancharova_7, Grancharova_7)
+tmp_5 <- merge(Grancharova_8, Grancharova_9)
+tmp_6 <- merge(Grancharova_10, Grancharova_11)
+tmp_7 <- merge(Grancharova_12, Grancharova_13)
+tmp_8 <- merge(Grancharova_14, Grancharova_15)
+tmpe <- merge(tmp, tmp_2)
+tmpe_2 <- merge(tmp_3, tmp_4)
+tmpe_3 <- merge(tmp_5, tmp_6)
+tmpe_4 <- merge(tmp_7, tmp_8)
+tmp <- merge(tmpe, tmpe_2)
+tmp_2 <- merge(tmp_3, tmp_4)
+Grancharova <- merge(tmp, tmp_2)
+qsave(Grancharova, "/home/bryanl/scratch/scRNA_meta/Grancharova/Grancharova.qs")
+
+tmp <- merge(Homo_ips_0, Homo_ips_1)
+tmp2 <- merge(Homo_ips_2, Homo_ips_3)
+Li <- merge(tmp, tmp2)
+qsave(Li, "/home/bryanl/scratch/scRNA_meta/Li/Li_iPSC-CMs.qs")
+
+tmp <- merge(CMs_2D, MCO_CM)
+Zhang <- merge(tmp, MCO_MIX)
+qsave(Zhang, "/home/bryanl/scratch/scRNA_meta/Zhang/Zhang.qs")
+
+tmp <- merge(Chaffin, Feng)
+tmp2 <- merge(Funakoshi, Grancharova)
+tmp3 <- merge(Koenig, Li)
+tmp4 <- merge(Simonson, Zhang)
+tmp5 <- merge(tmp, tmp2)
+tmp6 <- merge(tmp3, tmp4)
+QC_figs_filtered <- merge(tmp5, tmp6)
+
+table(QC_figs_filtered@meta.data$Dataset, QC_figs_filtered@meta.data$Type)
+table(QC_figs_filtered@meta.data$Dataset, QC_figs_filtered@meta.data$Conditions)
+table(QC_figs_filtered@meta.data$Dataset, QC_figs_filtered@meta.data$Sex)
+
+qsave(QC_figs_filtered, "/home/bryanl/scratch/scRNA_meta/QC_figs_filtered.qs")
 
 ## Normalization
 
