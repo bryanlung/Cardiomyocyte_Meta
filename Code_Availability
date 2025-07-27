@@ -176,9 +176,7 @@ qsave(QC_figs, "/home/bryanl/scratch/scRNA_meta/QC_figs.qs")
 
 Chaffin[["percent.mt"]] <- PercentageFeatureSet(Chaffin, pattern = "^MT-")
 Feng[["percent.mt"]] <- PercentageFeatureSet(Feng, pattern = "^MT-")
-D20_VCM[["percent.mt"]] <- PercentageFeatureSet(D20_VCM, pattern = "^MT-")
-D32_IM_VCM[["percent.mt"]] <- PercentageFeatureSet(D32_IM_VCM, pattern = "^MT-")
-D32_MAT_VCM[["percent.mt"]] <- PercentageFeatureSet(D32_MAT_VCM, pattern = "^MT-") 
+Funakoshi[["percent.mt"]] <- PercentageFeatureSet(Funakoshi, pattern = "^MT-")
 Grancharova[["percent.mt"]] <- PercentageFeatureSet(Grancharova, pattern = "^MT-")
 Koenig[["percent.mt"]] <- PercentageFeatureSet(Koenig, pattern = "^MT-")
 Li[["percent.mt"]] <- PercentageFeatureSet(Li, pattern = "^MT-")
@@ -193,12 +191,15 @@ Chaffin <- subset(Chaffin, subset = nFeature_RNA > 200 & nFeature_RNA < 8000)
 VlnPlot(Feng, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 Feng <- subset(Feng, subset = nFeature_RNA > 200 & nFeature_RNA < 6000 & percent.mt < 25)
 
+D20_VCM <- subset(Funakoshi, idents = c("D20_VCM"))
 VlnPlot(D20_VCM, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 D20_VCM <- subset(D20_VCM, subset = nFeature_RNA > 200 & nFeature_RNA < 5750 & percent.mt < 20)
 
+D32_IM_VCM<- subset(Funakoshi, idents = c("D32_IM_VCM"))
 VlnPlot(D32_IM_VCM, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 D32_IM_VCM <- subset(D32_IM_VCM, subset = nFeature_RNA > 200 & nFeature_RNA < 5000 & percent.mt < 30)
 
+D32_MAT_VCM <- subset(Funakoshi, idents = c("D32_MAT_VCM"))
 VlnPlot(D32_MAT_VCM, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 D32_MAT_VCM <- subset(D32_MAT_VCM, subset = nFeature_RNA > 200 & nFeature_RNA < 4000 & percent.mt < 75)
 
@@ -300,8 +301,6 @@ MCO_MIX <- subset(MCO_MIX, subset = nFeature_RNA > 200 & nFeature_RNA < 6000 & p
 
 tmp <- merge(D20_VCM, D32_IM_VCM)
 Funakoshi <- merge(tmp, D32_MAT_VCM)
-Funakoshi@meta.data$Sex <- "Undefined"
-Funakoshi@meta.data$Dataset <- "Funakoshi et al."
 qsave(Funakoshi, "/home/bryanl/scratch/scRNA_meta/Funakoshi/Funakoshi_iPSC-CMs.qs")
 
 tmp <- merge(Grancharova_1, Grancharova_2)
@@ -345,6 +344,13 @@ table(QC_figs_filtered@meta.data$Dataset, QC_figs_filtered@meta.data$Sex)
 qsave(QC_figs_filtered, "/home/bryanl/scratch/scRNA_meta/QC_figs_filtered.qs")
 
 ## Normalization
+
+# Chaffin et al.
+
+# Feng et al. 
+
+# Funakoshi et al. 
+
 
 ## Doublet Finder
 
