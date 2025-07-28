@@ -345,7 +345,14 @@ qsave(QC_figs_filtered, "/home/bryanl/scratch/scRNA_meta/QC_figs_filtered.qs")
 
 ## Normalization
 
+Chaffin <- qread("/home/bryanl/scratch/scRNA_meta/Chaffin/Chaffin_CMs.qs")
+Feng <- qread("/home/bryanl/scratch/scRNA_meta/Feng/Feng_Organoids.qs")
+Koenig <- qread("/home/bryanl/scratch/scRNA_meta/Koenig/Koenig_CMs.qs")
+Simonson <- qread("/home/bryanl/scratch/scRNA_meta/Simonson/Simonson_CMs.qs")
+
 # Chaffin et al.
+
+Chaffin <- SCTransform(Chaffin, vars.to.regress = "percent.mt", verbose = FALSE)
 
 # Feng et al. 
 
