@@ -127,7 +127,8 @@ Simonson_CMs@meta.data$Sex[Simonson_CMs@meta.data$sex == "male"] <- "Male"
 Simonson_CMs@meta.data$Sex[Simonson_CMs@meta.data$sex == "female"] <- "Female"
 Simonson_CMs@meta.data$Conditions[Simonson_CMs@meta.data$disease__ontology_label == "normal"] <- "Healthy CMs"
 Simonson_CMs@meta.data$Conditions[Simonson_CMs@meta.data$disease__ontology_label == "cardiomyopathy"] <- "ICM CMs"
-qsave(Simonson_CMs, "/home/bryanl/scratch/scRNA_meta/Simonson/Simonson_CMs.qs")
+Simonson <- Simonson_CMs
+qsave(Simonson, "/home/bryanl/scratch/scRNA_meta/Simonson/Simonson_CMs.qs")
 
 # Zhang et al.
 
