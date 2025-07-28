@@ -195,7 +195,7 @@ D20_VCM <- subset(Funakoshi, idents = c("D20_VCM"))
 VlnPlot(D20_VCM, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 D20_VCM <- subset(D20_VCM, subset = nFeature_RNA > 200 & nFeature_RNA < 5750 & percent.mt < 20)
 
-D32_IM_VCM<- subset(Funakoshi, idents = c("D32_IM_VCM"))
+D32_IM_VCM <- subset(Funakoshi, idents = c("D32_IM_VCM"))
 VlnPlot(D32_IM_VCM, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 D32_IM_VCM <- subset(D32_IM_VCM, subset = nFeature_RNA > 200 & nFeature_RNA < 5000 & percent.mt < 30)
 
@@ -356,10 +356,55 @@ Chaffin <- SCTransform(Chaffin, vars.to.regress = "percent.mt", verbose = FALSE)
 
 # Feng et al. 
 
+Feng <- SCTransform(Feng, vars.to.regress = "percent.mt", verbose = FALSE)
+
 # Funakoshi et al. 
 
+D20_VCM <- SCTransform(D20_VCM, vars.to.regress = "percent.mt", verbose = FALSE)
+D32_IM_VCM <- SCTransform(D32_IM_VCM, vars.to.regress = "percent.mt", verbose = FALSE)
+D32_MAT_VCM <- SCTransform(D32_MAT_VCM, vars.to.regress = "percent.mt", verbose = FALSE)
+
+# Grancharova et al. 
+
+Grancharova_1 <- SCTransform(Grancharova_1, vars.to.regress = "percent.mt", verbose = FALSE)
+Grancharova_2 <- SCTransform(Grancharova_2, vars.to.regress = "percent.mt", verbose = FALSE)
+Grancharova_3 <- SCTransform(Grancharova_3, vars.to.regress = "percent.mt", verbose = FALSE)
+Grancharova_4 <- SCTransform(Grancharova_4, vars.to.regress = "percent.mt", verbose = FALSE)
+Grancharova_5 <- SCTransform(Grancharova_5, vars.to.regress = "percent.mt", verbose = FALSE)
+Grancharova_6 <- SCTransform(Grancharova_6, vars.to.regress = "percent.mt", verbose = FALSE)
+Grancharova_7 <- SCTransform(Grancharova_7, vars.to.regress = "percent.mt", verbose = FALSE)
+Grancharova_8 <- SCTransform(Grancharova_8, vars.to.regress = "percent.mt", verbose = FALSE)
+Grancharova_9 <- SCTransform(Grancharova_9, vars.to.regress = "percent.mt", verbose = FALSE)
+Grancharova_10 <- SCTransform(Grancharova_10, vars.to.regress = "percent.mt", verbose = FALSE)
+Grancharova_11 <- SCTransform(Grancharova_11, vars.to.regress = "percent.mt", verbose = FALSE)
+Grancharova_12 <- SCTransform(Grancharova_12, vars.to.regress = "percent.mt", verbose = FALSE)
+Grancharova_13 <- SCTransform(Grancharova_13, vars.to.regress = "percent.mt", verbose = FALSE)
+Grancharova_14 <- SCTransform(Grancharova_14, vars.to.regress = "percent.mt", verbose = FALSE)
+Grancharova_15 <- SCTransform(Grancharova_15, vars.to.regress = "percent.mt", verbose = FALSE)
+
+# Koenig et al. 
+
+Koenig <- SCTransform(Koenig, vars.to.regress = "percent.mt", verbose = FALSE)
+
+# Li et al. 
+
+Homo_ips_0 <- SCTransform(Homo_ips_0, vars.to.regress = "percent.mt", verbose = FALSE)
+Homo_ips_1 <- SCTransform(Homo_ips_1, vars.to.regress = "percent.mt", verbose = FALSE)
+Homo_ips_2 <- SCTransform(Homo_ips_2, vars.to.regress = "percent.mt", verbose = FALSE)
+Homo_ips_3 <- SCTransform(Homo_ips_3, vars.to.regress = "percent.mt", verbose = FALSE)
+
+# Simonson et al. 
+
+Simonson <- SCTransform(Simonson, vars.to.regress = "percent.mt", verbose = FALSE)
+
+# Zhang et al. 
+
+CMs_2D <- SCTransform(CMs_2D, vars.to.regress = "percent.mt", verbose = FALSE)
+MCO_CM <- SCTransform(MCO_CM, vars.to.regress = "percent.mt", verbose = FALSE)
+MCO_MIX <- SCTransform(MCO_MIX, vars.to.regress = "percent.mt", verbose = FALSE)
 
 ## Doublet Finder
+
 
 ## Merging, Downsampling and Integration
 
